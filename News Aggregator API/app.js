@@ -24,8 +24,8 @@ routes.get('/', (req, res) => {
     res.status(200).send("Welcome The News API")
 })
 
-routes.use('/register',signup)
-routes.use('/signin',signin)
+routes.post('/register',signup)
+routes.post('/signin',signin)
 
 
 app.listen(8080, (err) => {

@@ -27,33 +27,34 @@ const signin = (req,res) => {
     let password = req.body.password;
 
     User.findOne({
-        email:email
+        email: email
     }).then((user) => {
-        let isValidPassword = bcrypt.compare(password, user.password);
+        let isValidPassword = bcrypt.compareSync(password, user.password);
+        console.log(isValidPassword, "is-it")
         if (!isValidPassword) {
+            console.log("wrong pass")
             return res.status(401).send({
                 accessToken: null,
-                message:"Invalid Password"
+                message: "Invalid Password"
             })
         }
-        var token = jwt.sign({
-            id: user.id
-        }, process.env.API_SECRET, {
-            expiresIn: 80000
-        });
-        res.status(200).send({
-            user: {
-                user: user.id,
-                email: user.email,
-                fullName:user.fullName
-            },
-            message: "Login Successful",
-            accessToken:token
-        })
+        else {
+            var token = jwt.sign({ id: user._id}, "555");
+            console.log("out token");
+            res.status(200).send({
+                user: {
+                    user: user.id,
+                    email: user.email,
+                    fullName: user.fullName
+                },
+                message: "Login Successful",
+                accessToken: token
+            })
+        }
     }).catch(err => {
         if (err) {
             return res.status(500).send({
-                message:err
+                message:"it is reached here!!"
             })
         }
     })
