@@ -27,7 +27,7 @@ routes.get('/', (req, res) => {
 
 routes.post('/register',signup)
 routes.post('/signin',signin)
-routes.use('/news',newsRoutes)
+routes.use('/',newsRoutes)
 
 app.listen(8080, (err) => {
     if (err) {
