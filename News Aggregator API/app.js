@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const routes = require('express').Router();
 const { signin, signup } = require("./controllers/authController");
 const mongoose = require("mongoose")
+const newsRoutes = require('./routes/news')
 const app = express()
 app.use(bodyParser.json());
 app.use(routes);
@@ -26,7 +27,7 @@ routes.get('/', (req, res) => {
 
 routes.post('/register',signup)
 routes.post('/signin',signin)
-
+routes.use('/news',newsRoutes)
 
 app.listen(8080, (err) => {
     if (err) {

@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
 const User = require('../Model/user')
-
+require('dotenv').config()
 const signup = (req,res) => {
     let fullName = req.body.fullName;
     let email = req.body.email;
@@ -30,17 +30,14 @@ const signin = (req,res) => {
         email: email
     }).then((user) => {
         let isValidPassword = bcrypt.compareSync(password, user.password);
-        console.log(isValidPassword, "is-it")
         if (!isValidPassword) {
-            console.log("wrong pass")
             return res.status(401).send({
                 accessToken: null,
                 message: "Invalid Password"
             })
         }
         else {
-            var token = jwt.sign({ id: user._id}, "555");
-            console.log("out token");
+            var token = jwt.sign({ id: user._id }, process.env.API_SECRET);
             res.status(200).send({
                 user: {
                     user: user.id,
